@@ -13,3 +13,4 @@ describe("GET /api/health", () => {
     expect(data.timestamp).toBeDefined();
   });
 });
+

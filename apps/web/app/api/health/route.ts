@@ -8,3 +8,4 @@ export async function GET() {
     mode: "Local mode · Ollama",
   });
 }
+

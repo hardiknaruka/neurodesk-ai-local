@@ -5,6 +5,9 @@ import helmet from 'helmet';
 import { Server as SocketIOServer } from 'socket.io';
 import { requestLogger } from './middleware/logger';
 import { healthRouter } from './routes/health';
+import { authRouter } from './routes/auth';
+import { notesRouter } from './routes/notes';
+import { uploadRouter } from './routes/upload';
 import { notFoundHandler, errorHandler } from './middleware/errors';
 
 export function createApp(): { app: Application; httpServer: http.Server; io: SocketIOServer } {
@@ -28,6 +31,9 @@ export function createApp(): { app: Application; httpServer: http.Server; io: So
 
   // ── Routes ─────────────────────────────────────────
   app.use('/api/v1', healthRouter);
+  app.use('/api/v1', authRouter);
+  app.use('/api/v1', notesRouter);
+  app.use('/api/v1', uploadRouter);
 
   // ── 404 and error handlers ─────────────────────────
   app.use(notFoundHandler);

@@ -1,13 +1,32 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { WorkspaceHeader } from "./WorkspaceHeader";
 import { WorkspaceSidebar } from "./WorkspaceSidebar";
 import { MainContent } from "./MainContent";
 import { ContextPanel } from "./ContextPanel";
+import { AuthSession, getOrCreateDemoSession } from "@/lib/api";
 
 export function AppShell() {
   const [activeNav, setActiveNav] = useState("chat");
+  const [session, setSession] = useState<AuthSession | null>(null);
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
+
+  useEffect(() => {
+    let mounted = true;
+    getOrCreateDemoSession().then((sess) => {
+      if (mounted) {
+        setSession(sess);
+      }
+    });
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  function handleDataChanged() {
+    setRefreshTrigger((prev) => prev + 1);
+  }
 
   return (
     <div className="flex h-screen w-screen flex-col overflow-hidden bg-brand-white">
@@ -20,10 +39,19 @@ export function AppShell() {
         <WorkspaceSidebar activeNav={activeNav} onNavChange={setActiveNav} />
 
         {/* Central Workspace Content */}
-        <MainContent activeNav={activeNav} />
+        <MainContent
+          activeNav={activeNav}
+          session={session}
+          onNavigate={setActiveNav}
+          onDataChanged={handleDataChanged}
+        />
 
         {/* Right Context Panel */}
-        <ContextPanel />
+        <ContextPanel
+          session={session}
+          refreshTrigger={refreshTrigger}
+          onFilesChanged={handleDataChanged}
+        />
       </div>
     </div>
   );

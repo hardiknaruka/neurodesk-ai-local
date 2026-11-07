@@ -112,3 +112,4 @@ export function WorkspaceSidebar({ activeNav, onNavChange }: WorkspaceSidebarPro
     </aside>
   );
 }
+

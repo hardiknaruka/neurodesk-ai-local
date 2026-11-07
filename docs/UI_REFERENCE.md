@@ -112,3 +112,4 @@ AppShell
 ## Component ownership
 
 The app shell and shared visual elements live in `apps/web/components/`. Feature views and their local components live under `apps/web/features/chat/`, `notebook/`, `files/`, `graph/`, `memory/`, and `settings/`. Keep routes/layouts in `apps/web/app/`; shared browser-safe tokens/API helpers in `apps/web/lib/`. Do not put React UI in either backend service. See `AGENTS.md` for the full folder ownership tree and local runtime rules.
+

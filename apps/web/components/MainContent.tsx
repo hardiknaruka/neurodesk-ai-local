@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Send,
   Paperclip,
@@ -11,13 +11,68 @@ import {
   Layers,
   Cpu,
 } from "lucide-react";
+import { AuthSession, fetchNotes, fetchDocuments } from "@/lib/api";
+import { NotebookView } from "@/features/notebook/NotebookView";
+import { FilesView } from "@/features/files/FilesView";
 
 interface MainContentProps {
   activeNav: string;
+  session: AuthSession | null;
+  onNavigate?: (nav: string) => void;
+  onDataChanged?: () => void;
 }
 
-export function MainContent({ activeNav }: MainContentProps) {
+export function MainContent({
+  activeNav,
+  session,
+  onNavigate,
+  onDataChanged,
+}: MainContentProps) {
   const [inputMessage, setInputMessage] = useState("");
+  const [docCount, setDocCount] = useState(0);
+  const [noteCount, setNoteCount] = useState(0);
+
+  useEffect(() => {
+    if (!session) return;
+    loadStats();
+  }, [session, activeNav]);
+
+  async function loadStats() {
+    if (!session) return;
+    try {
+      const [docs, notes] = await Promise.all([
+        fetchDocuments(session).catch(() => []),
+        fetchNotes(session).catch(() => []),
+      ]);
+      setDocCount(docs.length);
+      setNoteCount(notes.length);
+    } catch {
+      // Ignore background stat load errors
+    }
+  }
+
+  // Route to feature view if selected
+  if (activeNav === "notebook") {
+    return (
+      <main className="flex h-full flex-1 flex-col overflow-hidden bg-brand-white">
+        <NotebookView session={session} />
+      </main>
+    );
+  }
+
+  if (activeNav === "files") {
+    return (
+      <main className="flex h-full flex-1 flex-col overflow-hidden bg-brand-white">
+        <FilesView
+          session={session}
+          onFilesUpdated={() => {
+            loadStats();
+            onDataChanged?.();
+          }}
+        />
+      </main>
+    );
+  }
 
   const quickActions = [
     { label: "Summarize sources", icon: FileSearch },
@@ -37,7 +92,7 @@ export function MainContent({ activeNav }: MainContentProps) {
               <span className="inline-flex items-center gap-1 rounded bg-brand-blue/10 px-2 py-0.5 text-xs font-semibold text-brand-blue">
                 <Sparkles className="h-3 w-3" /> Workspace Overview
               </span>
-              <span className="text-xs text-brand-gray">Phase 0 Baseline</span>
+              <span className="text-xs text-brand-gray">Phase 1 · Verified Shell</span>
             </div>
 
             <div className="space-y-1">
@@ -49,16 +104,22 @@ export function MainContent({ activeNav }: MainContentProps) {
               </p>
             </div>
 
-            {/* Real Data Summary Strip (no fabricated metrics) */}
+            {/* Real Data Summary Strip */}
             <div className="grid grid-cols-3 gap-3 pt-2">
-              <div className="rounded-lg border border-brand-pale bg-brand-white p-3 text-center">
-                <div className="text-lg font-bold text-brand-navy">0</div>
+              <button
+                onClick={() => onNavigate?.("files")}
+                className="rounded-lg border border-brand-pale bg-brand-white p-3 text-center transition-colors hover:border-brand-blue/40"
+              >
+                <div className="text-lg font-bold text-brand-navy">{docCount}</div>
                 <div className="text-[11px] font-medium text-brand-gray">Documents</div>
-              </div>
-              <div className="rounded-lg border border-brand-pale bg-brand-white p-3 text-center">
-                <div className="text-lg font-bold text-brand-navy">0</div>
+              </button>
+              <button
+                onClick={() => onNavigate?.("notebook")}
+                className="rounded-lg border border-brand-pale bg-brand-white p-3 text-center transition-colors hover:border-brand-blue/40"
+              >
+                <div className="text-lg font-bold text-brand-navy">{noteCount}</div>
                 <div className="text-[11px] font-medium text-brand-gray">Notes</div>
-              </div>
+              </button>
               <div className="rounded-lg border border-brand-pale bg-brand-white p-3 text-center">
                 <div className="text-lg font-bold text-brand-navy">0</div>
                 <div className="text-[11px] font-medium text-brand-gray">Graph Concepts</div>
@@ -93,14 +154,14 @@ export function MainContent({ activeNav }: MainContentProps) {
             </div>
           </div>
 
-          {/* Active Navigation Indicator (Chat route default) */}
+          {/* Other route placeholder info */}
           {activeNav !== "chat" && (
             <div className="rounded-lg border border-brand-pale bg-brand-pale/40 p-4 text-center">
               <p className="text-xs font-medium text-brand-navy capitalize">
                 {activeNav} View
               </p>
               <p className="mt-1 text-[11px] text-brand-gray">
-                Feature route initialized. Ready for Phase 1 implementation.
+                Feature route ready for Phase 3/4 integration.
               </p>
             </div>
           )}
@@ -129,10 +190,11 @@ export function MainContent({ activeNav }: MainContentProps) {
               <div className="flex items-center gap-2">
                 <button
                   type="button"
+                  onClick={() => onNavigate?.("files")}
                   className="inline-flex items-center gap-1.5 rounded px-2 py-1 text-[11px] font-medium text-brand-gray hover:bg-brand-pale hover:text-brand-navy"
                 >
                   <Paperclip className="h-3.5 w-3.5" />
-                  <span>Attach</span>
+                  <span>Attach File</span>
                 </button>
                 <div className="flex items-center gap-1 text-[11px] text-brand-gray">
                   <Cpu className="h-3 w-3 text-brand-teal" />

@@ -16,7 +16,7 @@ class Settings(BaseSettings):
     # Service
     debug: bool = True
     ai_service_host: str = "127.0.0.1"
-    ai_service_port: int = 8000
+    ai_service_port: int = 8001
 
     # Internal auth — requests from Node API must carry this secret
     ai_service_internal_secret: str = "REPLACE_WITH_RANDOM_32_BYTE_HEX"

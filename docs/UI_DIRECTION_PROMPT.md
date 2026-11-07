@@ -42,3 +42,4 @@ Use reusable components and feature folders; do not build one giant page compone
 ## Implementation boundaries
 Follow AGENTS.md folder ownership and the PRD. Next.js/React/TypeScript/Tailwind only in apps/web/. Do not create a single-file HTML app. Core app must work locally and remain useful without cloud keys or external-service availability. No Docker or container files. First inspect the existing UI and project files, then state the smallest planned change before editing. After implementation, run the relevant checks and summarize changed files and checks.
 ```
+

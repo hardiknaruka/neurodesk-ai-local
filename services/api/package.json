@@ -12,7 +12,7 @@
     "lint": "eslint src --ext .ts",
     "test": "vitest run",
     "test:watch": "vitest",
-    "db:migrate": "node -e \"console.log('Migrations not yet implemented — see services/api/src/db/')\"",
+    "db:migrate": "tsx src/db/migrate.ts",
     "clean": "rimraf dist"
   },
   "dependencies": {
@@ -22,6 +22,7 @@
     "express-rate-limit": "^7.5.0",
     "jsonwebtoken": "^9.0.2",
     "bcryptjs": "^3.0.2",
+    "multer": "^1.4.5-lts.1",
     "winston": "^3.17.0",
     "morgan": "^1.10.0",
     "dotenv": "^16.4.7",
@@ -36,6 +37,7 @@
     "@types/jsonwebtoken": "^9.0.9",
     "@types/bcryptjs": "^2.4.6",
     "@types/morgan": "^1.9.9",
+    "@types/multer": "^1.4.12",
     "@types/pg": "^8.11.11",
     "@types/node": "^22.0.0",
     "@types/supertest": "^6.0.2",

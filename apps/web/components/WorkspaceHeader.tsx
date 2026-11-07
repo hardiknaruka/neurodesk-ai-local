@@ -51,3 +51,4 @@ export function WorkspaceHeader({ onNewChat }: WorkspaceHeaderProps) {
     </header>
   );
 }
+
