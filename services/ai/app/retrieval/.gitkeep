@@ -1,2 +1,3 @@
 # retrieval placeholder — Phase 2+
 # Modules: embedder.py, chroma_store.py, rag_pipeline.py, chunker.py
+

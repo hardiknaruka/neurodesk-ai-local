@@ -1,4 +1,4 @@
-﻿# NeuroDesk AI — Stop All Services
+# NeuroDesk AI — Stop All Services
 # Run from repo root: scripts\stop-all.ps1
 
 Write-Host "=== NeuroDesk AI — Stopping app processes ===" -ForegroundColor Cyan
@@ -13,3 +13,4 @@ Get-Process -Name "node" -ErrorAction SilentlyContinue | Stop-Process -Force
 Write-Host "[OK] Node processes stopped" -ForegroundColor Green
 
 Write-Host "Database services (PostgreSQL, Redis, Neo4j) are Windows services — stop them via Services panel if needed."
+

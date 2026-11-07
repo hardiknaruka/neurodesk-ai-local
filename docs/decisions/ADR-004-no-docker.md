@@ -16,3 +16,4 @@ All services run as **native local processes** on the developer's machine. No Do
 - Each service (PostgreSQL, Redis, Neo4j, Ollama, Python AI, Node API, Next.js) must be installed and started natively.
 - Setup variability is managed through pinned lockfiles, `scripts/`, OS-specific guidance in README, and `.env.example`.
 - This decision is permanent for the MVP; any change requires a separate ADR with explicit approval.
+

@@ -139,3 +139,4 @@ Never commit `.env` to source control.
 **Ollama won't start:** Try launching the Ollama app from Start Menu. If it fails, update your NVIDIA drivers.  
 **PostgreSQL connection refused:** Check the Windows service is running (`Get-Service postgresql*`).  
 **Neo4j won't start:** Verify `JAVA_HOME` points to JDK 17+ (`java -version`).
+

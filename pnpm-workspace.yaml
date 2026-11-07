@@ -2,3 +2,6 @@ packages:
   - "apps/*"
   - "services/api"
   - "packages/*"
+
+allowBuilds:
+  esbuild: true

@@ -1,6 +1,6 @@
 import { Router, Request, Response } from 'express';
 
-export const healthRouter = Router();
+export const healthRouter: Router = Router();
 
 healthRouter.get('/health', (_req: Request, res: Response) => {
   const response = {
@@ -23,3 +23,4 @@ healthRouter.get('/health', (_req: Request, res: Response) => {
 
   res.status(200).json(response);
 });
+

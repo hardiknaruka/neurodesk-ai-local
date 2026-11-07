@@ -38,3 +38,4 @@ async def health() -> HealthResponse:
             "neo4j": ServiceStatus(status="disabled", message="Not yet configured"),
         },
     )
+

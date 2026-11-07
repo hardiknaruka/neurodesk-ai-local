@@ -1,4 +1,4 @@
-﻿# NeuroDesk AI — Start All Services
+# NeuroDesk AI — Start All Services
 # Run from the repo root: scripts\start-all.ps1
 # Adjust paths if PostgreSQL/Neo4j/Redis are installed elsewhere.
 
@@ -82,3 +82,4 @@ Write-Host "Web:     http://127.0.0.1:3000"
 Write-Host "API:     http://127.0.0.1:4000/api/v1/health"
 Write-Host "AI:      http://127.0.0.1:8000/health"
 Write-Host "Neo4j:   http://127.0.0.1:7474"
+

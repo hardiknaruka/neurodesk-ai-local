@@ -15,3 +15,4 @@ async def test_health_returns_ok():
     assert body["status"] == "ok"
     assert "timestamp" in body
     assert body["services"]["ai_service"]["status"] == "ok"
+

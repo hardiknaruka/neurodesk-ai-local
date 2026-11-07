@@ -16,3 +16,4 @@ Use **pnpm** (installed via `npm install -g pnpm`). The workspace definition liv
 - All JS/TS install commands use `pnpm`, not `npm` or `yarn`.
 - Workspace packages reference each other with `workspace:*` protocol.
 - `node_modules` is hoisted per pnpm defaults.
+

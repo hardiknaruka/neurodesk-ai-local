@@ -103,3 +103,4 @@ Show source citations with assistant answers and provide a readable list alterna
 3. Verify the app still starts locally without cloud keys and without Docker when the change  
    touches startup or configuration.
 4. Summarize what changed, list tests run, and call out any remaining decision or limitation.
+

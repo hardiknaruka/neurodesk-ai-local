@@ -16,3 +16,4 @@ Use **ChromaDB** in embedded persistent mode as the default. FAISS is an evaluat
 - ChromaDB data lives in `data-local/chroma/` (gitignored).
 - No separate daemon is required for local mode.
 - Switching to FAISS would require a full re-index.
+

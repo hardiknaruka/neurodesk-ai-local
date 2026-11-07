@@ -16,3 +16,4 @@ Use **FastAPI** as the HTTP transport for the Python service. FastAPI is explici
 - FastAPI provides async-native request handling, automatic OpenAPI docs, and Pydantic validation.
 - LangChain is chosen; LlamaIndex is recorded as an alternative and must not be added as a simultaneous dependency.
 - A `services/ai` Python package is deployed as a separate process from the Node API.
+

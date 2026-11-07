@@ -1,4 +1,4 @@
-﻿# NeuroDesk AI — Health Check
+# NeuroDesk AI — Health Check
 # Quickly pings all local service endpoints.
 # Run from repo root: scripts\check-health.ps1
 
@@ -42,3 +42,4 @@ try {
 } catch {
     Write-Host "[FAIL] Redis/Memurai — service not found" -ForegroundColor Red
 }
+

@@ -29,3 +29,4 @@ export function errorHandler(
         : err.message,
   });
 }
+

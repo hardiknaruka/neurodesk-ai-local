@@ -187,3 +187,4 @@ export interface GraphQueryResponse {
   nodes: GraphNode[];
   edges: GraphEdge[];
 }
+
