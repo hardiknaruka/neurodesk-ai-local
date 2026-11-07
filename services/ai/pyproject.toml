@@ -1,0 +1,40 @@
+[project]
+name = "neurodesk-ai-service"
+version = "0.0.1"
+description = "NeuroDesk AI — Python + FastAPI + LangChain orchestration service"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.115.0",
+    "uvicorn[standard]>=0.32.0",
+    "pydantic>=2.10.0",
+    "pydantic-settings>=2.6.0",
+    "python-dotenv>=1.0.0",
+    "httpx>=0.28.0",
+    # Phase 2 — uncomment when ready
+    # "langchain>=0.3.0",
+    # "langchain-community>=0.3.0",
+    # "chromadb>=0.6.0",
+    # "sentence-transformers>=3.3.0",
+    # Phase 3
+    # "neo4j>=5.26.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.24.0",
+    "httpx>=0.28.0",
+    "ruff>=0.8.0",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "S"]
+ignore = ["S101"]  # allow assert in tests
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]

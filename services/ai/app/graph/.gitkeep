@@ -1,0 +1,2 @@
+# graph placeholder — Phase 3+
+# Modules: neo4j_client.py, entity_extractor.py, graph_query.py

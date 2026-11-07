@@ -1,0 +1,16 @@
+.env
+data-local/
+*.log
+node_modules/
+.next/
+dist/
+build/
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+*.egg-info/
+.DS_Store
+Thumbs.db
+*.sqlite
+*.db
