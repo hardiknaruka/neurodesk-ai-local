@@ -150,6 +150,34 @@ export interface ChatRequest {
   allowedDocumentIds?: string[];
 }
 
+export interface IngestDocumentRequest {
+  documentId: string;
+  workspaceId: string;
+  filePath: string;
+  filename: string;
+  mimeType: string;
+}
+
+export interface IngestDocumentResponse {
+  documentId: string;
+  chunksIndexed: number;
+  status: 'indexed' | 'failed';
+  errorMessage?: string;
+}
+
+export interface RagQueryRequest {
+  workspaceId: string;
+  query: string;
+  topK?: number;
+  allowedDocumentIds?: string[];
+}
+
+export interface RagQueryResponse {
+  answer: string;
+  citations: Citation[];
+  relevantChunksCount: number;
+}
+
 // ── Memory ──────────────────────────────────────────────────────────────────
 
 export type MemoryItemStatus = "proposed" | "approved" | "deleted";

@@ -5,12 +5,13 @@ import { WorkspaceHeader } from "./WorkspaceHeader";
 import { WorkspaceSidebar } from "./WorkspaceSidebar";
 import { MainContent } from "./MainContent";
 import { ContextPanel } from "./ContextPanel";
-import { AuthSession, getOrCreateDemoSession } from "@/lib/api";
+import { AuthSession, getOrCreateDemoSession, CitationItem } from "@/lib/api";
 
 export function AppShell() {
   const [activeNav, setActiveNav] = useState("chat");
   const [session, setSession] = useState<AuthSession | null>(null);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
+  const [selectedCitation, setSelectedCitation] = useState<CitationItem | null>(null);
 
   useEffect(() => {
     let mounted = true;
@@ -44,6 +45,7 @@ export function AppShell() {
           session={session}
           onNavigate={setActiveNav}
           onDataChanged={handleDataChanged}
+          onSelectCitation={(citation) => setSelectedCitation(citation)}
         />
 
         {/* Right Context Panel */}
@@ -51,6 +53,8 @@ export function AppShell() {
           session={session}
           refreshTrigger={refreshTrigger}
           onFilesChanged={handleDataChanged}
+          selectedCitation={selectedCitation}
+          onClearCitation={() => setSelectedCitation(null)}
         />
       </div>
     </div>

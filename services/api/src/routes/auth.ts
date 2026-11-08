@@ -8,7 +8,10 @@ import { logger } from '../middleware/logger';
 
 export const authRouter: Router = Router();
 
-const JWT_SECRET = process.env.JWT_SECRET || 'fallback_secret_for_local_testing_only';
+const JWT_SECRET = process.env.JWT_SECRET || (process.env.NODE_ENV === 'production' ? '' : 'neurodesk_dev_jwt_secret_not_for_production');
+if (process.env.NODE_ENV === 'production' && !JWT_SECRET) {
+  throw new Error('FATAL: JWT_SECRET environment variable is mandatory in production');
+}
 const JWT_EXPIRY: jwt.SignOptions['expiresIn'] = (process.env.JWT_EXPIRY || '15m') as jwt.SignOptions['expiresIn'];
 
 const registerSchema = z.object({

@@ -17,7 +17,12 @@ declare global {
   }
 }
 
-const JWT_SECRET = process.env.JWT_SECRET || 'fallback_secret_for_local_testing_only';
+const JWT_SECRET = process.env.JWT_SECRET || (process.env.NODE_ENV === 'production' ? '' : 'neurodesk_dev_jwt_secret_not_for_production');
+if (process.env.NODE_ENV === 'production' && !JWT_SECRET) {
+  throw new Error('FATAL: JWT_SECRET environment variable is mandatory in production');
+}
+
+const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
 export function authenticate(req: Request, res: Response, next: NextFunction): void {
   const authHeader = req.headers.authorization;
@@ -64,6 +69,15 @@ export async function requireWorkspace(req: Request, res: Response, next: NextFu
       success: false,
       data: null,
       error: 'Workspace context missing: provide x-workspace-id header or workspaceId parameter',
+    });
+    return;
+  }
+
+  if (!UUID_REGEX.test(workspaceId)) {
+    res.status(400).json({
+      success: false,
+      data: null,
+      error: 'Invalid workspace identifier format: expected valid UUID',
     });
     return;
   }

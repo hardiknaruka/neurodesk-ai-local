@@ -10,11 +10,10 @@ dependencies = [
     "pydantic-settings>=2.6.0",
     "python-dotenv>=1.0.0",
     "httpx>=0.28.0",
-    # Phase 2 — uncomment when ready
-    # "langchain>=0.3.0",
-    # "langchain-community>=0.3.0",
-    # "chromadb>=0.6.0",
-    # "sentence-transformers>=3.3.0",
+    "chromadb>=0.6.0",
+    "pymupdf>=1.25.0",
+    "python-docx>=1.1.0",
+    "pypdf>=5.0.0",
     # Phase 3
     # "neo4j>=5.26.0",
 ]

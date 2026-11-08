@@ -221,3 +221,113 @@ export async function deleteDocument(session: AuthSession, id: string): Promise<
   if (!res.ok) throw new Error('Failed to delete document');
 }
 
+
+// ── Chat & Grounded RAG API ────────────────────────────────────────────────
+
+export interface CitationItem {
+  documentId: string;
+  filename: string;
+  page: number;
+  section?: string;
+  snippet: string;
+}
+
+export interface ChatMessageItem {
+  id: string;
+  conversation_id: string;
+  role: 'user' | 'assistant' | 'system';
+  content: string;
+  citations: CitationItem[];
+  model_provider: string | null;
+  created_at: string;
+}
+
+export interface ConversationItem {
+  id: string;
+  workspace_id: string;
+  title: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export async function fetchConversations(session: AuthSession): Promise<ConversationItem[]> {
+  const res = await fetch(`${API_BASE}/chat/conversations`, {
+    headers: {
+      Authorization: `Bearer ${session.accessToken}`,
+      'x-workspace-id': session.workspace.id,
+    },
+  });
+  if (!res.ok) throw new Error('Failed to load conversations');
+  const body = await res.json();
+  return body.data || [];
+}
+
+export async function fetchConversationMessages(
+  session: AuthSession,
+  conversationId: string,
+): Promise<ChatMessageItem[]> {
+  const res = await fetch(`${API_BASE}/chat/conversations/${conversationId}/messages`, {
+    headers: {
+      Authorization: `Bearer ${session.accessToken}`,
+      'x-workspace-id': session.workspace.id,
+    },
+  });
+  if (!res.ok) throw new Error('Failed to load messages');
+  const body = await res.json();
+  return body.data || [];
+}
+
+export async function sendChatMessage(
+  session: AuthSession,
+  message: string,
+  conversationId?: string,
+  allowedDocumentIds?: string[],
+): Promise<{
+  conversationId: string;
+  userMessage: ChatMessageItem;
+  assistantMessage: ChatMessageItem;
+  relevantChunksCount: number;
+}> {
+  const res = await fetch(`${API_BASE}/chat`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${session.accessToken}`,
+      'x-workspace-id': session.workspace.id,
+    },
+    body: JSON.stringify({
+      message,
+      conversationId,
+      allowedDocumentIds,
+    }),
+  });
+
+  if (!res.ok) {
+    const errorBody = await res.json().catch(() => ({}));
+    throw new Error(errorBody.error || 'Failed to send message');
+  }
+
+  const data = await res.json();
+  return data.data;
+}
+
+export async function reindexDocument(
+  session: AuthSession,
+  documentId: string,
+): Promise<{ id: string; status: string; chunksIndexed: number }> {
+  const res = await fetch(`${API_BASE}/files/${documentId}/reindex`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${session.accessToken}`,
+      'x-workspace-id': session.workspace.id,
+    },
+  });
+
+  if (!res.ok) {
+    const errorBody = await res.json().catch(() => ({}));
+    throw new Error(errorBody.error || 'Failed to reindex document');
+  }
+
+  const data = await res.json();
+  return data.data;
+}
